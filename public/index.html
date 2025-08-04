@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro de Asistencia - Sistemas Informáticos</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="app.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d6efd">
+  <link rel="icon" href="icons/icon-192.png">
+
+</head>
+<body>
+  <main>
+    <!-- Login -->
+    <section id="loginSection" class="panel">
+      <h2>Iniciar Sesión</h2>
+      <form id="loginForm" novalidate>
+        <input 
+          type="email" 
+          id="email" 
+          placeholder="Correo electrónico" 
+          required 
+          aria-label="Correo electrónico"
+        />
+        <input 
+          type="password" 
+          id="password" 
+          placeholder="Contraseña" 
+          required 
+          aria-label="Contraseña"
+        />
+        <button type="submit" aria-label="Entrar">Entrar</button>
+      </form>
+      <div id="loginError" aria-live="polite"></div>
+    </section>
+
+    <!-- Panel de aplicación (oculto inicialmente) -->
+    <section id="appSection" style="display:none;">
+      <nav>
+        <div class="main-buttons">
+          <button id="btnGestionAlumnos" type="button">Gestión de Alumnos</button>
+          <button id="btnRegistroAsistencia" type="button">Registro de Asistencias</button>
+        </div>
+        <button id="btnCerrarSesion" type="button" title="Cerrar sesión">×</button>
+      </nav>
+
+      <section id="panelGestionAlumnos" class="panel">
+        <h2>Gestión de Alumnos</h2>
+        <form id="formAlumno" novalidate>
+          <input 
+            type="text" 
+            id="nombre" 
+            placeholder="Nombre completo" 
+            required 
+            aria-label="Nombre completo"
+          />
+          <select id="curso" required aria-label="Selecciona curso">
+            <option value="" disabled selected>Selecciona curso</option>
+            <option value="buena_fe">Buena Fe</option>
+            <option value="juana_azurduy">Juana Azurduy</option>
+            <option value="campo_rosso">Campo Rosso</option>
+          </select>
+          <button type="submit">Agregar Alumno</button>
+        </form>
+        <div id="listaAlumnos" aria-live="polite"></div>
+      </section>
+
+      <section id="panelRegistroAsistencia" class="panel" style="display:none;">
+        <h2>Registro de Asistencias</h2>
+        <label for="cursoAsistencia">Selecciona curso:</label>
+        <select id="cursoAsistencia" aria-label="Selecciona curso para asistencia">
+          <option value="" disabled selected>Selecciona curso</option>
+          <option value="buena_fe">Buena Fe</option>
+          <option value="juana_azurduy">Juana Azurduy</option>
+          <option value="campo_rosso">Campo Rosso</option>
+        </select>
+
+        <label for="fechaAsistencia">Fecha:</label>
+        <input type="date" id="fechaAsistencia" aria-label="Selecciona fecha de asistencia" />
+
+        <div id="listaAsistencia" aria-live="polite"></div>
+
+        <button id="btnGuardarAsistencia" type="button">Guardar Asistencia</button>
+        <button id="btnImprimirPDF" type="button">Imprimir PDF</button>
+
+      </section>
+    </section>
+  </main>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('Service Worker registrado:', reg.scope))
+          .catch(err => console.log('Error al registrar el Service Worker:', err));
+      });
+    }
+  </script>
+
+</body>
+</html>
